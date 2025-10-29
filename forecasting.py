@@ -57,4 +57,18 @@ print(f"\n✅ Root Mean Squared Error (RMSE): **{rmse:.4f}**")
 
 # --- 6. Visualisasi Hasil Forecasting ---
 # Gabungkan y_test dan y_pred untuk plot
-actual_series = np.concatenate([y_train,
+actual_series = np.concatenate([y_train, y_test])
+predicted_series = np.concatenate([y_train, y_pred]) # Menggunakan y_train di awal karena tidak diprediksi
+
+plt.figure(figsize=(10, 6))
+plt.plot(np.arange(len(actual_series)), actual_series, label='Nilai Sebenarnya', color='blue')
+# Plot prediksi hanya pada segmen test
+test_start_index = len(y_train)
+plt.plot(np.arange(test_start_index, len(actual_series)), y_pred, label='Prediksi Random Forest', color='red')
+plt.axvline(x=test_start_index, color='gray', linestyle='--', label='Batas Train/Test')
+
+plt.title('Forecasting Deret Waktu dengan Sklearn Random Forest (Lagging)')
+plt.xlabel('Langkah Waktu')
+plt.ylabel('Nilai')
+plt.legend()
+plt.show()
